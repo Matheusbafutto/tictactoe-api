@@ -3,7 +3,11 @@ module.exports = {
   // Please don't change this file manually but run `prisma generate` to update it.
   // For more information, please read the docs: https://www.prisma.io/docs/prisma-client/
 
-/* GraphQL */ `type AggregateUser {
+/* GraphQL */ `type AggregateGame {
+  count: Int!
+}
+
+type AggregateUser {
   count: Int!
 }
 
@@ -13,9 +17,224 @@ type BatchPayload {
 
 scalar DateTime
 
+type Game {
+  id: ID!
+  player: User!
+  state: String!
+  finished: Boolean!
+  won: Boolean
+}
+
+type GameConnection {
+  pageInfo: PageInfo!
+  edges: [GameEdge]!
+  aggregate: AggregateGame!
+}
+
+input GameCreateInput {
+  id: ID
+  player: UserCreateOneWithoutGamesInput!
+  state: String!
+  finished: Boolean
+  won: Boolean
+}
+
+input GameCreateManyWithoutPlayerInput {
+  create: [GameCreateWithoutPlayerInput!]
+  connect: [GameWhereUniqueInput!]
+}
+
+input GameCreateWithoutPlayerInput {
+  id: ID
+  state: String!
+  finished: Boolean
+  won: Boolean
+}
+
+type GameEdge {
+  node: Game!
+  cursor: String!
+}
+
+enum GameOrderByInput {
+  id_ASC
+  id_DESC
+  state_ASC
+  state_DESC
+  finished_ASC
+  finished_DESC
+  won_ASC
+  won_DESC
+}
+
+type GamePreviousValues {
+  id: ID!
+  state: String!
+  finished: Boolean!
+  won: Boolean
+}
+
+input GameScalarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  state: String
+  state_not: String
+  state_in: [String!]
+  state_not_in: [String!]
+  state_lt: String
+  state_lte: String
+  state_gt: String
+  state_gte: String
+  state_contains: String
+  state_not_contains: String
+  state_starts_with: String
+  state_not_starts_with: String
+  state_ends_with: String
+  state_not_ends_with: String
+  finished: Boolean
+  finished_not: Boolean
+  won: Boolean
+  won_not: Boolean
+  AND: [GameScalarWhereInput!]
+  OR: [GameScalarWhereInput!]
+  NOT: [GameScalarWhereInput!]
+}
+
+type GameSubscriptionPayload {
+  mutation: MutationType!
+  node: Game
+  updatedFields: [String!]
+  previousValues: GamePreviousValues
+}
+
+input GameSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: GameWhereInput
+  AND: [GameSubscriptionWhereInput!]
+  OR: [GameSubscriptionWhereInput!]
+  NOT: [GameSubscriptionWhereInput!]
+}
+
+input GameUpdateInput {
+  player: UserUpdateOneRequiredWithoutGamesInput
+  state: String
+  finished: Boolean
+  won: Boolean
+}
+
+input GameUpdateManyDataInput {
+  state: String
+  finished: Boolean
+  won: Boolean
+}
+
+input GameUpdateManyMutationInput {
+  state: String
+  finished: Boolean
+  won: Boolean
+}
+
+input GameUpdateManyWithoutPlayerInput {
+  create: [GameCreateWithoutPlayerInput!]
+  delete: [GameWhereUniqueInput!]
+  connect: [GameWhereUniqueInput!]
+  set: [GameWhereUniqueInput!]
+  disconnect: [GameWhereUniqueInput!]
+  update: [GameUpdateWithWhereUniqueWithoutPlayerInput!]
+  upsert: [GameUpsertWithWhereUniqueWithoutPlayerInput!]
+  deleteMany: [GameScalarWhereInput!]
+  updateMany: [GameUpdateManyWithWhereNestedInput!]
+}
+
+input GameUpdateManyWithWhereNestedInput {
+  where: GameScalarWhereInput!
+  data: GameUpdateManyDataInput!
+}
+
+input GameUpdateWithoutPlayerDataInput {
+  state: String
+  finished: Boolean
+  won: Boolean
+}
+
+input GameUpdateWithWhereUniqueWithoutPlayerInput {
+  where: GameWhereUniqueInput!
+  data: GameUpdateWithoutPlayerDataInput!
+}
+
+input GameUpsertWithWhereUniqueWithoutPlayerInput {
+  where: GameWhereUniqueInput!
+  update: GameUpdateWithoutPlayerDataInput!
+  create: GameCreateWithoutPlayerInput!
+}
+
+input GameWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  player: UserWhereInput
+  state: String
+  state_not: String
+  state_in: [String!]
+  state_not_in: [String!]
+  state_lt: String
+  state_lte: String
+  state_gt: String
+  state_gte: String
+  state_contains: String
+  state_not_contains: String
+  state_starts_with: String
+  state_not_starts_with: String
+  state_ends_with: String
+  state_not_ends_with: String
+  finished: Boolean
+  finished_not: Boolean
+  won: Boolean
+  won_not: Boolean
+  AND: [GameWhereInput!]
+  OR: [GameWhereInput!]
+  NOT: [GameWhereInput!]
+}
+
+input GameWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Mutation {
+  createGame(data: GameCreateInput!): Game!
+  updateGame(data: GameUpdateInput!, where: GameWhereUniqueInput!): Game
+  updateManyGames(data: GameUpdateManyMutationInput!, where: GameWhereInput): BatchPayload!
+  upsertGame(where: GameWhereUniqueInput!, create: GameCreateInput!, update: GameUpdateInput!): Game!
+  deleteGame(where: GameWhereUniqueInput!): Game
+  deleteManyGames(where: GameWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -42,6 +261,9 @@ type PageInfo {
 }
 
 type Query {
+  game(where: GameWhereUniqueInput!): Game
+  games(where: GameWhereInput, orderBy: GameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Game]!
+  gamesConnection(where: GameWhereInput, orderBy: GameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GameConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -49,6 +271,7 @@ type Query {
 }
 
 type Subscription {
+  game(where: GameSubscriptionWhereInput): GameSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
 }
 
@@ -58,6 +281,7 @@ type User {
   email: String!
   password: String!
   createdAt: DateTime!
+  games(where: GameWhereInput, orderBy: GameOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Game!]
 }
 
 type UserConnection {
@@ -67,6 +291,19 @@ type UserConnection {
 }
 
 input UserCreateInput {
+  id: ID
+  name: String!
+  email: String!
+  password: String!
+  games: GameCreateManyWithoutPlayerInput
+}
+
+input UserCreateOneWithoutGamesInput {
+  create: UserCreateWithoutGamesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserCreateWithoutGamesInput {
   id: ID
   name: String!
   email: String!
@@ -121,12 +358,31 @@ input UserUpdateInput {
   name: String
   email: String
   password: String
+  games: GameUpdateManyWithoutPlayerInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
   password: String
+}
+
+input UserUpdateOneRequiredWithoutGamesInput {
+  create: UserCreateWithoutGamesInput
+  update: UserUpdateWithoutGamesDataInput
+  upsert: UserUpsertWithoutGamesInput
+  connect: UserWhereUniqueInput
+}
+
+input UserUpdateWithoutGamesDataInput {
+  name: String
+  email: String
+  password: String
+}
+
+input UserUpsertWithoutGamesInput {
+  update: UserUpdateWithoutGamesDataInput!
+  create: UserCreateWithoutGamesInput!
 }
 
 input UserWhereInput {
@@ -194,6 +450,9 @@ input UserWhereInput {
   createdAt_lte: DateTime
   createdAt_gt: DateTime
   createdAt_gte: DateTime
+  games_every: GameWhereInput
+  games_some: GameWhereInput
+  games_none: GameWhereInput
   AND: [UserWhereInput!]
   OR: [UserWhereInput!]
   NOT: [UserWhereInput!]

@@ -1,17 +1,33 @@
 type Query {
   hello: String!
   user(id: ID!): User!
+  allGames: [String]
+  finishedGames: [String]
+  unfinishedGames: [String]
+  gamesWon: [String]
+  gamesLost: [String]
 }
 
 type Mutation {
   signup(name: String!, email:String!, password: String!): AuthPayload!
   login(email:String!, password:String!): AuthPayload!
+  play: String
+  startGame: Game!
+}
+
+type Game {
+  id: ID!
+  player: User!
+  state: String!
+  finished: Boolean
+  won: Boolean
 }
 
 type User {
   id: ID!
   name: String!
   email: String!
+  games: [Game!]!
 }
 
 type AuthPayload {

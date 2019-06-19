@@ -9,7 +9,32 @@ function user(parent, args, context, info) {
   return user
 }
 
+function allGames() {
+  return
+}
+
+function finishedGames() {
+  return
+}
+
+function unfinishedGames() {
+  return
+}
+
+function gamesWon() {
+  return
+}
+
+function gamesLost() {
+  return
+}
+
 module.exports = {
   hello,
   user,
+  allGames,
+  finishedGames,
+  unfinishedGames,
+  gamesWon,
+  gamesLost,
 }

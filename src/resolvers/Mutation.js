@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
-const { APP_SECRET } = require("../utils.js")
+const { APP_SECRET, getUserId } = require("../utils.js")
 
 async function signup(root, args, context, info) {
   const password = await bcrypt.hash(args.password, 10)
@@ -40,7 +40,24 @@ async function login(root, args, context, info) {
 
 }
 
+function play(root, args, context, info) {
+  const {row, col, gameId} = args
+  return
+}
+
+
+function startGame(root, args, context, info) {
+  const userId = getUserId(context)
+  const game = context.prisma.createGame({
+    player: { connect: { id: userId } },
+    state: '#########',
+  })
+  return game
+}
+
 module.exports = {
   signup,
   login,
+  play,
+  startGame,
 }
