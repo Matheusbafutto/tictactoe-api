@@ -1,11 +1,10 @@
 type Query {
   hello: String!
   user(id: ID!): User!
-  allGames: [String]
-  finishedGames: [String]
-  unfinishedGames: [String]
-  gamesWon: [String]
-  gamesLost: [String]
+  finishedGames: [Game!]
+  unfinishedGames: [Game!]
+  wonGames: [Game!]
+  lostGames: [Game!]
 }
 
 type Mutation {

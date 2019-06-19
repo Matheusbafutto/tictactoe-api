@@ -1,3 +1,5 @@
+const { getUserId } = require('../utils')
+
 function hello() {
   return `hello world`
 }
@@ -9,32 +11,31 @@ function user(parent, args, context, info) {
   return user
 }
 
-function allGames() {
-  return
+function finishedGames(parent, args, context, info) {
+  const userId = getUserId(context)
+  return context.prisma.user({id: userId}).games({where: {finished: true}})
 }
 
-function finishedGames() {
-  return
+function unfinishedGames(parent, args, context, info) {
+  const userId = getUserId(context)
+  return context.prisma.user({id: userId}).games({where: {finished: false}})
 }
 
-function unfinishedGames() {
-  return
+function wonGames(parent, args, context, info) {
+  const userId = getUserId(context)
+  return context.prisma.user({id: userId}).games({where: {won: true}})
 }
 
-function gamesWon() {
-  return
-}
-
-function gamesLost() {
-  return
+function lostGames(parent, args, context, info) {
+  const userId = getUserId(context)
+  return context.prisma.user({id: userId}).games({where: {won: false}})
 }
 
 module.exports = {
   hello,
   user,
-  allGames,
   finishedGames,
   unfinishedGames,
-  gamesWon,
-  gamesLost,
+  wonGames,
+  lostGames,
 }
