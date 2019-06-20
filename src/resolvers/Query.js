@@ -26,6 +26,11 @@ function wonGames(parent, args, context, info) {
   return context.prisma.user({id: userId}).games({where: {won: true}})
 }
 
+function drawGames(parent, args, context, info) {
+  const userId = getUserId(context)
+  return context.prisma.user({id: userId}).games({where: {won: null, finished:true}})
+}
+
 function lostGames(parent, args, context, info) {
   const userId = getUserId(context)
   return context.prisma.user({id: userId}).games({where: {won: false}})
@@ -38,4 +43,5 @@ module.exports = {
   unfinishedGames,
   wonGames,
   lostGames,
+  drawGames,
 }

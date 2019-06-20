@@ -5,6 +5,7 @@ type Query {
   unfinishedGames: [Game!]
   wonGames: [Game!]
   lostGames: [Game!]
+  drawGames: [Game!]
 }
 
 type Mutation {
